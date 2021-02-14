@@ -1,8 +1,9 @@
-import { IsString } from "class-validator";
-
 export class AuthCredentialDTO {
-    @IsString()
-    username: string;
-    @IsString()
-    password: string;
+  username: string;
+  password: string;
+  fullname: string;
+  age: number;
+  email: string;
+  contactNumber: number;
+  address: string;
 }
