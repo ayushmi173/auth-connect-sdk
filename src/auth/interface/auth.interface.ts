@@ -1,7 +1,7 @@
 export interface jwtPayload {
   username: string;
 }
-
-export interface jwtAccessToken {
+export interface jwtSignInAccessTokenResponse {
+  username: string;
   accessToken: string;
 }

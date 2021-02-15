@@ -35,7 +35,6 @@ export class User extends BaseEntity {
   email: string;
 
   @Column()
-  @IsNumber()
   contactNumber: number;
 
   @Column()

@@ -4,7 +4,7 @@ import { UserRepository } from "../user/user.repository";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { jwtPayload } from "./interface/auth.interface";
 import { UnauthorizedException } from "@nestjs/common";
-import { User } from "../user/entity/user.entity";
+import { UserDto } from "src/user/dto/user.dto";
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -17,10 +17,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: jwtPayload): Promise<User> {
+  async validate(payload: jwtPayload): Promise<UserDto> {
     const { username } = payload;
     const user = await this.userRepository.findOne({ username });
-
     if (!user) {
       throw new UnauthorizedException("User is not valid");
     }

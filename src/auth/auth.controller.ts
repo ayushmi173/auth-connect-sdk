@@ -1,40 +1,43 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
-  Req,
   UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
-import { AuthCredentialDTO } from "./dto/auth-credential.dto";
+import {
+  AuthSignInCredentialDTO,
+  AuthSignUpCredentialDTO,
+} from "./dto/auth-credential.dto";
 import { User } from "../user/entity/user.entity";
 import { GetUser } from "../user/getUser.decorator";
-import { jwtAccessToken } from "./interface/auth.interface";
+import { jwtSignInAccessTokenResponse } from "./interface/auth.interface";
+import { UserDto } from "src/user/dto/user.dto";
 
-@Controller("/auth")
+@Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post("/signup")
+  @Post("signup")
   userSignUp(
-    @Body(ValidationPipe) authCredentialDTO: AuthCredentialDTO
+    @Body(ValidationPipe) authSignUpDTO: AuthSignUpCredentialDTO
   ): Promise<User> {
-    return this.authService.userSignUp(authCredentialDTO);
+    return this.authService.userSignUp(authSignUpDTO);
   }
 
-  @Post("/signin")
+  @Post("signin")
   userSignIn(
-    @Body() authCredentialDTO: AuthCredentialDTO
-  ): Promise<jwtAccessToken> {
-    return this.authService.userSignIn(authCredentialDTO);
+    @Body() authSignInDTO: AuthSignInCredentialDTO
+  ): Promise<jwtSignInAccessTokenResponse> {
+    return this.authService.userSignIn(authSignInDTO);
   }
 
-  @Post("/isvalid")
+  @Get("profile")
   @UseGuards(AuthGuard())
-  isValid(@GetUser() user: User) {
-    console.log(user.fullname);
+  isValid(@GetUser() user: User): UserDto {
     return user;
   }
 }

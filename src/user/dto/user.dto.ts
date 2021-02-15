@@ -1,4 +1,5 @@
-export class AuthSignUpCredentialDTO {
+export class UserDto {
+  id: number;
   username: string;
   password: string;
   fullname: string;
@@ -6,9 +7,5 @@ export class AuthSignUpCredentialDTO {
   email: string;
   contactNumber: number;
   address: string;
-}
-
-export class AuthSignInCredentialDTO {
-  username: string;
-  password: string;
+  salt: string;
 }
