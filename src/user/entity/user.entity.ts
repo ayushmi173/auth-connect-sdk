@@ -6,8 +6,8 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from "typeorm";
-import * as bcrypt from "bcrypt";
-import { IsEmail, IsNumber, IsString } from "class-validator";
+import { buildHashPassword } from "../shared/hashPassword";
+import { IsEmail, IsString } from "class-validator";
 @Entity()
 @Unique(["username"])
 export class User extends BaseEntity {
@@ -23,23 +23,8 @@ export class User extends BaseEntity {
   password: string;
 
   @Column()
-  @IsString()
-  fullname: string;
-
-  @Column()
-  @IsNumber()
-  age: number;
-
-  @Column()
   @IsEmail()
   email: string;
-
-  @Column()
-  contactNumber: number;
-
-  @Column()
-  @IsString()
-  address: string;
 
   @Column()
   @IsString()
@@ -51,7 +36,7 @@ export class User extends BaseEntity {
   }
 
   async validatePassword(password: string): Promise<boolean> {
-    const hash = await bcrypt.hash(password, this.salt);
+    const hash = await buildHashPassword(password, this.salt);
     return this.password === hash;
   }
 }

@@ -10,35 +10,25 @@ import {
   InternalServerErrorException,
   Logger,
 } from "@nestjs/common";
+import { buildHashPassword } from "./shared/hashPassword";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   private logger = new Logger("UserRepository");
 
   async userSignUp(authSignUpDTO: AuthSignUpCredentialDTO): Promise<User> {
-    const {
-      username,
-      password,
-      fullname,
-      age,
-      email,
-      contactNumber,
-      address,
-    } = authSignUpDTO;
-
+    const { username, password, email } = authSignUpDTO;
     const salt = await bcrypt.genSalt();
-    const user = new User();
-    user.username = username;
-    user.password = await this.buildHashPassword(password, salt);
-    user.fullname = fullname;
-    user.age = age;
-    user.email = email;
-    user.contactNumber = contactNumber;
-    user.address = address;
-    user.salt = salt;
+    const userCredential = {
+      username: username,
+      password: await buildHashPassword(password, salt),
+      email: email,
+      salt: salt,
+    };
+
     try {
-      this.logger.log(`saved user ${JSON.stringify(user)}`);
-      return await user.save();
+      this.logger.log(`saved user ${JSON.stringify(userCredential)}`);
+      return await this.save(userCredential);
     } catch (error) {
       if (error.code === "23505") {
         this.logger.verbose(`User Already Exist:  ${error}`);
@@ -60,12 +50,5 @@ export class UserRepository extends Repository<User> {
     } else {
       return null;
     }
-  }
-
-  private async buildHashPassword(
-    password: string,
-    salt: string
-  ): Promise<string> {
-    return bcrypt.hash(password, salt);
   }
 }
