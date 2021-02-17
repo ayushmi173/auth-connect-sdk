@@ -26,17 +26,8 @@ export class User extends BaseEntity {
   @IsEmail()
   email: string;
 
-  @Column()
-  @IsString()
-  salt: string;
-
   @BeforeInsert()
   emailToLowerCase() {
     this.email = this.email.toLowerCase();
-  }
-
-  async validatePassword(password: string): Promise<boolean> {
-    const hash = await buildHashPassword(password, this.salt);
-    return this.password === hash;
   }
 }

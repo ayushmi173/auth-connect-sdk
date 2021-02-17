@@ -20,18 +20,18 @@ export class AuthService {
     private logger: Logger
   ) {}
 
-  async userSignUp(authSignUpDTO: AuthSignUpCredentialDTO) {
-    return await this.userRepository.userSignUp(authSignUpDTO);
+  async signUp(authSignUpDTO: AuthSignUpCredentialDTO) {
+    return await this.userRepository.createOne(authSignUpDTO);
   }
 
-  async userSignIn(
+  async signIn(
     authSignInDTO: AuthSignInCredentialDTO
   ): Promise<JwtSignInAccessTokenResponse> {
-    const validUsername = await this.userRepository.validateExistingUserPassword(
+    const existingUser = await this.userRepository.getUserByNameAndPassword(
       authSignInDTO
     );
-    if (validUsername) {
-      const payload: JwtPayload = { username: validUsername };
+    if (existingUser) {
+      const payload: JwtPayload = { username: existingUser.username };
       const jwtAccessToken: string = this.jwtService.sign(payload);
       this.logger.log(
         `generated token for ${JSON.stringify(payload)}`,

@@ -4,7 +4,6 @@ import {
   Get,
   Post,
   UseGuards,
-  ValidationPipe,
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
@@ -22,22 +21,20 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("/signup")
-  userSignUp(
-    @Body(ValidationPipe) authSignUpDTO: AuthSignUpCredentialDTO
-  ): Promise<User> {
-    return this.authService.userSignUp(authSignUpDTO);
+  signUp(@Body() authSignUpDTO: AuthSignUpCredentialDTO): Promise<User> {
+    return this.authService.signUp(authSignUpDTO);
   }
 
   @Post("/signin")
-  userSignIn(
+  signIn(
     @Body() authSignInDTO: AuthSignInCredentialDTO
   ): Promise<JwtSignInAccessTokenResponse> {
-    return this.authService.userSignIn(authSignInDTO);
+    return this.authService.signIn(authSignInDTO);
   }
 
   @Get("/profile")
   @UseGuards(AuthGuard())
-  isValid(@GetUser() user: User): UserDto {
+  isUser(@GetUser() user: User): UserDto {
     return user;
   }
 }

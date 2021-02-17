@@ -1,29 +1,21 @@
-import { Repository, EntityRepository } from "typeorm";
+import { Repository, EntityRepository, DeepPartial } from "typeorm";
 import { User } from "./entity/user.entity";
-import {
-  AuthSignInCredentialDTO,
-  AuthSignUpCredentialDTO,
-} from "../auth/dto/auth-credential.dto";
-import * as bcrypt from "bcrypt";
+import { AuthSignInCredentialDTO } from "../auth/dto/auth-credential.dto";
 import {
   ConflictException,
   InternalServerErrorException,
   Logger,
 } from "@nestjs/common";
-import { buildHashPassword } from "./shared/hashPassword";
-
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   private logger = new Logger("UserRepository");
 
-  async userSignUp(authSignUpDTO: AuthSignUpCredentialDTO): Promise<User> {
+  async createOne(authSignUpDTO: DeepPartial<User>): Promise<User> {
     const { username, password, email } = authSignUpDTO;
-    const salt = await bcrypt.genSalt();
     const userCredential = {
       username: username,
-      password: await buildHashPassword(password, salt),
+      password: password,
       email: email,
-      salt: salt,
     };
 
     try {
@@ -40,15 +32,16 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async validateExistingUserPassword(
+  async getUserByNameAndPassword(
     authSignInDTO: AuthSignInCredentialDTO
-  ): Promise<string> {
+  ): Promise<User> {
     const { username, password } = authSignInDTO;
-    const user = await this.findOne({ username });
-    if (user && (await user.validatePassword(password))) {
-      return user.username;
-    } else {
-      return null;
-    }
+    const user = await this.findOne({
+      where: { username: username, password: password },
+    });
+
+    if (user) return user;
+
+    return null;
   }
 }
