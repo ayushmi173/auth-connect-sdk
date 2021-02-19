@@ -37,7 +37,7 @@ export class AuthService {
         `generated token for ${JSON.stringify(payload)}`,
         AuthService.name
       );
-      return { username: payload.username, accessToken: jwtAccessToken };
+      return { user: existingUser, accessToken: jwtAccessToken };
     } else {
       this.logger.error(`username doesn't exist`, AuthService.name);
       throw new UnauthorizedException(`Can't logged in, Wrong credentials`);

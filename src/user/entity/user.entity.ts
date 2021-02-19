@@ -6,13 +6,12 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from "typeorm";
-import { buildHashPassword } from "../shared/hashPassword";
 import { IsEmail, IsString } from "class-validator";
 @Entity()
 @Unique(["username"])
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   @IsString()
