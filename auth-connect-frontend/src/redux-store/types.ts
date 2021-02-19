@@ -13,7 +13,7 @@ export interface IGetUser {
 export type InitialEntityState = {
   user: IUser;
   entities: {
-    accessToken: boolean;
+    login: boolean;
     logout: boolean;
   };
   error: boolean;

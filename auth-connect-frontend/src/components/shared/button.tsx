@@ -4,7 +4,7 @@ import { COLORS } from "../../colors/constants";
 
 type Props = {
   title: React.ReactNode;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => any;
+  onClick?: (event: React.MouseEvent) => void;
 };
 
 const ButtonWrapper = styled.button`
@@ -19,7 +19,7 @@ const ButtonWrapper = styled.button`
 export const Button: React.FC<Props> = (props: Props) => {
   return (
     <>
-      <ButtonWrapper>{props.title}</ButtonWrapper>
+      <ButtonWrapper onClick={props.onClick}>{props.title}</ButtonWrapper>
     </>
   );
 };

@@ -4,7 +4,7 @@ import { InitialEntityState } from "../types";
 export const intialState: InitialEntityState = {
   user: {},
   entities: {
-    accessToken: false,
+    login: false,
     logout: false,
   },
   error: false,
@@ -19,6 +19,10 @@ function rootReducer(
       return {
         ...state,
         user: action.user,
+        entities: {
+          ...state.entities,
+          logout: false,
+        },
         error: action.error,
       };
     }
@@ -27,8 +31,8 @@ function rootReducer(
         ...state,
         user: action.payload.user,
         entities: {
-          ...state.entities,
-          accessToken: action.payload.accessToken,
+          logout: false,
+          login: action.payload.login,
         },
         error: action.payload.error,
       };
@@ -36,7 +40,10 @@ function rootReducer(
     case "LOGOUT_USER": {
       return {
         user: {},
-        entities: undefined,
+        entities: {
+          logout: true,
+          login: false,
+        },
         error: undefined,
       };
     }

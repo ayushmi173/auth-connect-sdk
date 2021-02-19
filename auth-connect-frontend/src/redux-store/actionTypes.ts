@@ -8,7 +8,7 @@ export type Action =
     }
   | {
       type: "LOGIN_USER";
-      payload: { user: IUser; accessToken: boolean; error: boolean };
+      payload: { user: IUser; login: boolean; error: boolean };
     }
   | {
       type: "LOGOUT_USER";

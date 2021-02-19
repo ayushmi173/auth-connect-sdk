@@ -36,7 +36,7 @@ export const userSignIn = (username: string, password: string) => async (
         type: "LOGIN_USER",
         payload: {
           user: userResponse.user,
-          accessToken: true,
+          login: true,
           error: false,
         },
       });

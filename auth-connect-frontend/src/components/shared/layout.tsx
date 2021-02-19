@@ -4,14 +4,14 @@ import Head from "next/head";
 import styled from "styled-components";
 import { COLORS } from "../../colors/constants";
 
-type LayoutProps = {
+type Props = {
   title?: string;
 };
 
 const LayoutWrapper = styled.div`
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid ${COLORS.GREY};
+  margin: 20px 0px;
+  padding: 20px 0px;
+  background-color: ${COLORS.BLACK};
 `;
 
 const NavWrapper = styled.nav`
@@ -20,34 +20,43 @@ const NavWrapper = styled.nav`
   flex-direction: row;
 `;
 
-const HeadWrapper = styled(Head)``;
-const Layout: React.FunctionComponent<LayoutProps> = ({ children, title }) => (
-  <LayoutWrapper>
-    <HeadWrapper>
-      <title>{title}</title>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    </HeadWrapper>
-    <header>
+const LinkAnchorWrapper = styled.a`
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 600;
+  color: ${COLORS.WHITE};
+  cursor: pointer;
+  &:hover {
+    color: ${COLORS.GREY};
+  }
+`;
+
+const Layout: React.FC<Props> = ({ title }: Props) => {
+  return (
+    <LayoutWrapper>
+      <Head>
+        <title>{title}</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+
       <NavWrapper>
         <Link href="/">
-          <a>Home</a>
+          <LinkAnchorWrapper>Home</LinkAnchorWrapper>
         </Link>
 
         <Link href="/signup">
-          <a>Sign Up</a>
+          <LinkAnchorWrapper>Sign Up</LinkAnchorWrapper>
         </Link>
 
         <Link href="/signin">
-          <a>Sign In</a>
+          <LinkAnchorWrapper>Sign In</LinkAnchorWrapper>
         </Link>
-
         <Link href="/profile">
-          <a>Profile</a>
+          <LinkAnchorWrapper>Profile</LinkAnchorWrapper>
         </Link>
       </NavWrapper>
-    </header>
-    {children}
-  </LayoutWrapper>
-);
+    </LayoutWrapper>
+  );
+};
 export default Layout;
