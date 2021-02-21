@@ -34,7 +34,7 @@ const Profile: NextPage = () => {
       required={true}
       label={"Id"}
       type={"text"}
-      value={user.username}
+      value={user.id}
       disabled={true}
       key={0}
     />

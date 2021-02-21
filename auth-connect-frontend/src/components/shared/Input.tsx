@@ -31,7 +31,7 @@ const TextInputLabelContents = styled.span`
 
 const InputWrapper = styled.input`
   height: 30px;
-  width: 240px;
+  width: 700px;
   font-size: 15px;
 `;
 
