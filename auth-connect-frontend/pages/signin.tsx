@@ -33,9 +33,9 @@ const SignIn: NextPage = () => {
   const usernameInput = (
     <TextInput
       required={true}
-      label={"Username"}
-      type={"text"}
-      placeholder={"Enter Username"}
+      label="Username"
+      type="text"
+      placeholder="Enter Username"
       value={username}
       disabled={false}
       key={1}
@@ -46,9 +46,9 @@ const SignIn: NextPage = () => {
   const passwordInput = (
     <TextInput
       required={true}
-      label={"Password"}
-      type={"text"}
-      placeholder={"Enter Password"}
+      label="Password"
+      type="text"
+      placeholder="Enter Password"
       value={password}
       disabled={false}
       key={2}
@@ -73,20 +73,16 @@ const SignIn: NextPage = () => {
       <Layout title="Sign In" />
       <SignInWrapper>
         <Form
-          title={"Connect Authentication SDK"}
-          subtitle={"Fill your existing Username & Password..."}
-          submitLabel={"Sign In"}
+          title="Connect Authentication SDK"
+          subtitle="Fill your existing Username & Password..."
+          submitLabel="Sign In"
           onSubmit={handleSubmit}
           onReset={handleReset}
         >
           {usernameInput}
           {passwordInput}
         </Form>
-        {errorMessage ? (
-          <Message summary={"There is something error"} />
-        ) : (
-          <></>
-        )}
+        {errorMessage ? <Message summary="There is something error" /> : <></>}
       </SignInWrapper>
     </>
   );

@@ -32,8 +32,8 @@ const Profile: NextPage = () => {
   const userIdInput = (
     <TextInput
       required={true}
-      label={"Id"}
-      type={"text"}
+      label="Id"
+      type="text"
       value={user.id}
       disabled={true}
       key={0}
@@ -43,8 +43,8 @@ const Profile: NextPage = () => {
   const usernameInput = (
     <TextInput
       required={true}
-      label={"Username"}
-      type={"text"}
+      label="Username"
+      type="text"
       value={user.username}
       disabled={true}
       key={1}
@@ -54,8 +54,8 @@ const Profile: NextPage = () => {
   const passwordInput = (
     <TextInput
       required={true}
-      label={"Password"}
-      type={"text"}
+      label="Password"
+      type="text"
       value={user.password}
       disabled={true}
       key={2}
@@ -64,8 +64,8 @@ const Profile: NextPage = () => {
   const emailInput = (
     <TextInput
       required={true}
-      label={"Password"}
-      type={"text"}
+      label="Password"
+      type="text"
       value={user.email}
       disabled={true}
       key={3}
@@ -82,15 +82,12 @@ const Profile: NextPage = () => {
       <Layout title="Profile" />
       <ProfileWrapper>
         {login ? (
-          <Form
-            title={"Your Profile"}
-            subtitle={"Get your account information..."}
-          >
+          <Form title="Your Profile" subtitle="Get your account information...">
             {userIdInput}
             {usernameInput}
             {passwordInput}
             {emailInput}
-            <Button title={"Logout"} onClick={setLogout}></Button>
+            <Button title="Logout" onClick={setLogout}></Button>
           </Form>
         ) : (
           <MessageWrapper>You haven't logged In!!</MessageWrapper>
