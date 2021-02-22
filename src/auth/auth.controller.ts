@@ -32,7 +32,7 @@ export class AuthController {
     return this.authService.signIn(authSignInDTO);
   }
 
-  @Get("/profile")
+  @Get("/me")
   @UseGuards(AuthGuard())
   isUser(@GetUser() user: User): UserDto {
     return user;

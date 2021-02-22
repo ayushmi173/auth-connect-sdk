@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../src/components/shared/layout";
 import TextInput from "../src/components/shared/Input";
 import styled from "styled-components";
@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { userSignUp } from "../src/redux-store/actions/actionCreator";
 import { InitialEntityState, IUser } from "../src/redux-store/types";
 import Message from "../src/components/shared/message";
+import { withAuth } from "../src/utils/auth";
+import { Context } from "../pages/_app";
 
 const SignUpWrapper = styled.div`
   display: flex;
@@ -30,6 +32,12 @@ const SignUp: NextPage = () => {
     (state: InitialEntityState) => state.entities.login
   );
 
+  useEffect(() => {
+    if (!errorMessage) {
+      clearFields();
+    }
+  }, [errorMessage]);
+  
   const usernameInput = (
     <TextInput
       required={true}
@@ -78,9 +86,6 @@ const SignUp: NextPage = () => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     dispatch(userSignUp(username, password, email));
-    if (!errorMessage) {
-      clearFields();
-    }
   }
 
   function handleReset(event: React.MouseEvent<HTMLButtonElement>): void {
@@ -119,4 +124,5 @@ const SignUp: NextPage = () => {
   );
 };
 
-export default SignUp;
+SignUp.getInitialProps = async (_ctx: Context) => ({});
+export default withAuth(false, SignUp);

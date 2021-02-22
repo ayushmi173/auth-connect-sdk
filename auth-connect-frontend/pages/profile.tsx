@@ -1,13 +1,14 @@
 import { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Layout from "../src/components/shared/layout";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Form from "../src/components/shared/form";
 import TextInput from "../src/components/shared/Input";
 import { InitialEntityState, IUser } from "../src/redux-store/types";
-import { COLORS } from "../src/colors/constants";
 import { Button } from "../src/components/shared/button";
+import { afterLoginRedirect, redirect, withAuth } from "../src/utils/auth";
+import { Context } from "../pages/_app";
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -16,18 +17,18 @@ const ProfileWrapper = styled.div`
   min-height: 80vh;
 `;
 
-const MessageWrapper = styled.span`
-  font-weight: 700;
-  font-size: 30px;
-  color: ${COLORS.ERROR};
-`;
-
 const Profile: NextPage = () => {
   const dispatch = useDispatch();
-  const login: boolean = useSelector(
-    (state: InitialEntityState) => state.entities.login
+  const logOut: boolean = useSelector(
+    (state: InitialEntityState) => state.entities.logout
   );
   const user: IUser = useSelector((state: InitialEntityState) => state.user);
+
+  useEffect(() => {
+    if (logOut) {
+      afterLoginRedirect();
+    }
+  }, [logOut]);
 
   const userIdInput = (
     <TextInput
@@ -81,20 +82,24 @@ const Profile: NextPage = () => {
     <>
       <Layout title="Profile" />
       <ProfileWrapper>
-        {login ? (
-          <Form title="Your Profile" subtitle="Get your account information...">
-            {userIdInput}
-            {usernameInput}
-            {passwordInput}
-            {emailInput}
-            <Button title="Logout" onClick={setLogout}></Button>
-          </Form>
-        ) : (
-          <MessageWrapper>You haven't logged In!!</MessageWrapper>
-        )}
+        <Form title="Your Profile" subtitle="Get your account information...">
+          {userIdInput}
+          {usernameInput}
+          {passwordInput}
+          {emailInput}
+          <Button title="Logout" onClick={setLogout}></Button>
+        </Form>
       </ProfileWrapper>
     </>
   );
 };
 
-export default Profile;
+Profile.getInitialProps = async (ctx: Context) => {
+  const state = ctx.store.getState();
+
+  if (!state.error && !state.entities.login) {
+    redirect(ctx, "/signin");
+  }
+  return {};
+};
+export default withAuth(true, Profile);

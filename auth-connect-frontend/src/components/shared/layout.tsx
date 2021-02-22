@@ -52,9 +52,6 @@ const Layout: React.FC<Props> = ({ title }: Props) => {
         <Link href="/signin">
           <LinkAnchorWrapper>Sign In</LinkAnchorWrapper>
         </Link>
-        <Link href="/profile">
-          <LinkAnchorWrapper>Profile</LinkAnchorWrapper>
-        </Link>
       </NavWrapper>
     </LayoutWrapper>
   );

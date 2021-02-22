@@ -1,7 +1,7 @@
 import { Action } from "../actionTypes";
 import { InitialEntityState } from "../types";
 
-export const intialState: InitialEntityState = {
+export const initialState: InitialEntityState = {
   user: {},
   entities: {
     login: false,
@@ -11,7 +11,7 @@ export const intialState: InitialEntityState = {
 };
 
 function rootReducer(
-  state: InitialEntityState = intialState,
+  state: InitialEntityState = initialState,
   action: Action
 ): InitialEntityState {
   switch (action.type) {

@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../src/components/shared/layout";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -8,7 +8,12 @@ import TextInput from "../src/components/shared/Input";
 import { InitialEntityState } from "../src/redux-store/types";
 import { userSignIn } from "../src/redux-store/actions/actionCreator";
 import Message from "../src/components/shared/message";
-import { useRouter } from "next/dist/client/router";
+import { Context } from "../pages/_app";
+import {
+  afterLoginRedirect,
+  setAccessTokenStatus,
+  withAuth,
+} from "../src/utils/auth";
 
 const SignInWrapper = styled.div`
   display: flex;
@@ -22,13 +27,19 @@ const SignIn: NextPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const dispatch = useDispatch();
-  const router = useRouter();
   const errorMessage: boolean = useSelector(
     (state: InitialEntityState) => state.error
   );
   const login: boolean = useSelector(
     (state: InitialEntityState) => state.entities.login
   );
+
+  useEffect(() => {
+    if (login) {
+      afterLoginRedirect("/profile");
+      setAccessTokenStatus(login);
+    }
+  }, [login]);
 
   const usernameInput = (
     <TextInput
@@ -55,9 +66,6 @@ const SignIn: NextPage = () => {
       onChange={(value) => setPassword(value)}
     />
   );
-  if (login) {
-    router.push("profile");
-  }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -88,4 +96,6 @@ const SignIn: NextPage = () => {
   );
 };
 
-export default SignIn;
+SignIn.getInitialProps = async (_ctx: Context) => ({});
+
+export default withAuth(false, SignIn);
