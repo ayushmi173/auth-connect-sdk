@@ -11,7 +11,7 @@ import Message from "../src/components/shared/message";
 import { Context } from "../pages/_app";
 import {
   afterLoginRedirect,
-  setAccessTokenStatus,
+  setTokenCookie,
   withAuth,
 } from "../src/utils/auth";
 
@@ -30,16 +30,25 @@ const SignIn: NextPage = () => {
   const errorMessage: boolean = useSelector(
     (state: InitialEntityState) => state.error
   );
-  const login: boolean = useSelector(
-    (state: InitialEntityState) => state.entities.login
+  const accessToken: string = useSelector(
+    (state: InitialEntityState) => state.entities.accessToken
   );
+  const user = useSelector((state: InitialEntityState) => state.user);
+  const signUpStatus: boolean = useSelector(
+    (state: InitialEntityState) => state.entities.signUp
+  );
+  useEffect(() => {
+    if (accessToken) {
+      afterLoginRedirect("/profile");
+      setTokenCookie(accessToken);
+    }
+  }, [accessToken]);
 
   useEffect(() => {
-    if (login) {
+    if (user.id && !signUpStatus) {
       afterLoginRedirect("/profile");
-      setAccessTokenStatus(login);
     }
-  }, [login]);
+  }, [user]);
 
   const usernameInput = (
     <TextInput

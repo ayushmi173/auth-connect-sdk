@@ -28,8 +28,11 @@ const SignUp: NextPage = () => {
     (state: InitialEntityState) => state.error
   );
   const user: IUser = useSelector((state: InitialEntityState) => state.user);
-  const login: boolean = useSelector(
-    (state: InitialEntityState) => state.entities.login
+  const accessToken: string = useSelector(
+    (state: InitialEntityState) => state.entities.accessToken
+  );
+  const signUpStatus: boolean = useSelector(
+    (state: InitialEntityState) => state.entities.signUp
   );
 
   useEffect(() => {
@@ -37,7 +40,7 @@ const SignUp: NextPage = () => {
       clearFields();
     }
   }, [errorMessage]);
-  
+
   const usernameInput = (
     <TextInput
       required={true}
@@ -112,7 +115,7 @@ const SignUp: NextPage = () => {
           <Message summary="There is something error" />
         ) : (
           <>
-            {user.id && !login ? (
+            {user.id && signUpStatus ? (
               <Message summary="User Successfully Registered" />
             ) : (
               <></>

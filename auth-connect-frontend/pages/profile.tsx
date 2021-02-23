@@ -7,8 +7,13 @@ import Form from "../src/components/shared/form";
 import TextInput from "../src/components/shared/Input";
 import { InitialEntityState, IUser } from "../src/redux-store/types";
 import { Button } from "../src/components/shared/button";
-import { afterLoginRedirect, redirect, withAuth } from "../src/utils/auth";
+import {
+  afterLoginRedirect,
+  removeCookieToken,
+  withAuth,
+} from "../src/utils/auth";
 import { Context } from "../pages/_app";
+import { getMe } from "../src/redux-store/actions/actionCreator";
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -29,6 +34,10 @@ const Profile: NextPage = () => {
       afterLoginRedirect();
     }
   }, [logOut]);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, []);
 
   const userIdInput = (
     <TextInput
@@ -73,10 +82,11 @@ const Profile: NextPage = () => {
     />
   );
 
-  const setLogout = (event: React.MouseEvent) => {
+  async function setLogout(event: React.MouseEvent): Promise<void> {
     event.preventDefault();
     dispatch({ type: "LOGOUT_USER" });
-  };
+    await removeCookieToken(null);
+  }
 
   return (
     <>
@@ -94,12 +104,5 @@ const Profile: NextPage = () => {
   );
 };
 
-Profile.getInitialProps = async (ctx: Context) => {
-  const state = ctx.store.getState();
-
-  if (!state.error && !state.entities.login) {
-    redirect(ctx, "/signin");
-  }
-  return {};
-};
+Profile.getInitialProps = async (ctx: Context) => {};
 export default withAuth(true, Profile);

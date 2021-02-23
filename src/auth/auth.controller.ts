@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseGuards,
-} from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
 import {
@@ -35,6 +29,7 @@ export class AuthController {
   @Get("/me")
   @UseGuards(AuthGuard())
   isUser(@GetUser() user: User): UserDto {
+    console.log(user);
     return user;
   }
 }

@@ -15,7 +15,12 @@ export const userSignUp = (
 
   if (response.ok) {
     const userResponse: IUser = await response.json();
-    dispatch({ type: "SIGNUP_USER", user: userResponse, error: false });
+
+    dispatch({
+      type: "SIGNUP_USER",
+      user: userResponse,
+      error: false,
+    });
   } else {
     dispatch({ type: "API_ERROR", payload: true });
   }
@@ -36,11 +41,27 @@ export const userSignIn = (username: string, password: string) => async (
         type: "LOGIN_USER",
         payload: {
           user: userResponse.user,
-          login: true,
+          accessToken: userResponse.accessToken,
           error: false,
         },
       });
     }
+  } else {
+    dispatch({ type: "API_ERROR", payload: true });
+  }
+};
+
+export const getMe = () => async (dispatch: Dispatch<Action>) => {
+  const response = await api.get("/me");
+  if (response.ok) {
+    const getMeUser: IUser = await response.json();
+
+    dispatch({
+      type: "PROFILE",
+      payload: {
+        userProfile: getMeUser,
+      },
+    });
   } else {
     dispatch({ type: "API_ERROR", payload: true });
   }

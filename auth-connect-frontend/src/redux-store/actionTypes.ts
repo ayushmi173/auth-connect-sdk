@@ -8,7 +8,7 @@ export type Action =
     }
   | {
       type: "LOGIN_USER";
-      payload: { user: IUser; login: boolean; error: boolean };
+      payload: { user: IUser; accessToken: string; error: boolean };
     }
   | {
       type: "LOGOUT_USER";
@@ -16,4 +16,11 @@ export type Action =
   | {
       type: "API_ERROR";
       payload: boolean;
+    }
+  | {
+      type: "PROFILE";
+      payload: {
+        userProfile: IUser;
+      };
+      error: boolean;
     };

@@ -4,7 +4,7 @@ import { InitialEntityState } from "../types";
 export const initialState: InitialEntityState = {
   user: {},
   entities: {
-    login: false,
+    accessToken: "",
     logout: false,
   },
   error: false,
@@ -31,8 +31,9 @@ function rootReducer(
         ...state,
         user: action.payload.user,
         entities: {
+          ...state.entities,
           logout: false,
-          login: action.payload.login,
+          accessToken: action.payload.accessToken,
         },
         error: action.payload.error,
       };
@@ -41,10 +42,22 @@ function rootReducer(
       return {
         user: {},
         entities: {
+          ...state.entities,
           logout: true,
-          login: false,
+          accessToken: "",
         },
         error: undefined,
+      };
+    }
+    case "PROFILE": {
+      return {
+        ...state,
+        user: action.payload.userProfile,
+        entities: {
+          ...state.entities,
+          logout: false,
+        },
+        error: action.error,
       };
     }
     case "API_ERROR": {
