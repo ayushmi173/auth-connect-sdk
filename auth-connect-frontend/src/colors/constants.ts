@@ -1,0 +1,13 @@
+export const COLORS = {
+  BACKGROUND: "#FCFCFC",
+  BLACK: "#000000",
+  BORDER: "#E2EBF8",
+  BOX_SHADOW: "rgba(226, 235, 248, 0.15)",
+  BOX_SHADOW_HARD: "rgba(226, 235, 248, 0.5)",
+  ERROR: "#FB6767",
+  GREY: "#737C86",
+  PLACEHOLDER: "#737C86",
+  SUCCESS: "#2DD082",
+  TEXT: "#333",
+  WHITE: '#FFFFFF'
+};
