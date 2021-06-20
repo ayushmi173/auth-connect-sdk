@@ -101,7 +101,7 @@ const SignUp: NextPage = () => {
       <SignUpWrapper>
         <Form
           title="Connect Authentication SDK"
-          subtitle="Fill our credentials for signing up..."
+          subtitle="Fill your credentials for signing up..."
           submitLabel="Sign Up"
           key={1}
           onSubmit={handleSubmit}
