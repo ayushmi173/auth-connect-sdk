@@ -18,7 +18,7 @@ export default {
   username: process.env[ENVIRONMENT_VARIABLES.POSTGRES_USER],
   password: process.env[ENVIRONMENT_VARIABLES.POSTGRES_PASSWORD],
   database: process.env[ENVIRONMENT_VARIABLES.POSTGRES_DATABASE],
-  synchronize: false,
+  synchronize: true,
   migrationsRun: true,
   entities: [__dirname + "/../**/*.entity.{js,ts}"],
   migrations: [__dirname + "src/migrations/*{.ts,.js}"],
